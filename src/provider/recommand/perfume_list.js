@@ -17,6 +17,12 @@
     };
 
     function getPrefumeList(conn, userid, type) {
+        if(userid == null || type == null) {
+            return new Promise((res,rej)=>{
+                res('err');
+                return;
+            });
+        }
         const qry = `select perfume_list from recommand where user_id=${userid} and type=${type} order by id desc limit 1`;
         return new Promise((resolve, reject)=>{
             conn.query(qry, (err, ret)=>{
@@ -33,7 +39,7 @@
         console.log(await module.exports(g,2,2));
         process.exit(0);
     }
-    test();
+    //test();
 })();
 
 

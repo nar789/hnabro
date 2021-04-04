@@ -69,7 +69,7 @@
         console.log(await module.exports(g, id, name, address, sex, age, hashtags, personality, job, oauthType, likes, subscribeType));
         process.exit(0);
     }
-    test();
+    //test();
 })();
 
 

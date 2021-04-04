@@ -57,7 +57,7 @@
         console.log(await module.exports(g, userId, address, wantedDate, confirmedPerfume, confirmState, confirmedDate));
         process.exit(0);
     }
-    test();
+    //test();
 })();
 
 

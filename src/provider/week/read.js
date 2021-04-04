@@ -45,7 +45,7 @@ const { user } = require('../../../dbConfig');
         console.log(await module.exports(g, null, 3));
         process.exit(0);
     }
-    test();
+    //test();
 })();
 
 

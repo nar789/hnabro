@@ -1,24 +1,21 @@
 ;(function(){
 
 	module.exports = function(){
-		function global(){
-			var express;
-			var app;
-			var bodyParser;
-			var mysql;
-		}
 
 		function loadNodeModules() {
-			_g=new global();//static global
+			_g={};//static global
 			_g.express = require('express');
 			_g.app = require('express')();
 			_g.bodyParser = require('body-parser');
-			_g.mysql = require('mysql');			
+			_g.mysql = require('mysql');	
+			_g.config = require('./../dbConfig');
 		}
 
 		function loadRoute() {
 			var route = require('./Route.js')(_g);
+			var provierRoute = require('./provider/Route.js')(_g);
 			route.route();
+			provierRoute.route();
 		}
 
 		function initialize(){

@@ -41,7 +41,7 @@
         console.log(await module.exports(g));
         process.exit(0);
     }
-    test();
+    //test();
 })();
 
 

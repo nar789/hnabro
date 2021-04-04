@@ -8,6 +8,10 @@
 				res.render('index.html',{});
 			});
 
+			app.get('/admin',function(req,res){
+				res.render('admin/index.html',{});
+			});
+
 			//1. enetry point
 			app.listen(2131,function(){
 			  preLoad();

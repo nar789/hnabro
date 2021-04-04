@@ -17,15 +17,11 @@
     };
 
     function create(conn, userid, perfumeid, type, perfumeList) {
-        if(userid == null  || 
-            perfumeid == null  || type == null ||
-            perfumeList == null){
-                return new Promise((resolve,reject)=>{
-                    resolve('err');
-                });
-            }
-
-        perfumeList = JSON.stringify(perfumeList);
+        if(userid == null  || perfumeid == null  || type == null || perfumeList == null) {
+            return new Promise((resolve,reject)=>{
+                resolve('err');
+            });
+        }
         const qry = `insert into recommand values(null,${userid},${perfumeid},${type},'${perfumeList}')`;
         
         return new Promise((resolve, reject)=>{
@@ -47,10 +43,11 @@
         for(var i=0;i<100;i++){
             perfumeList.push(i+2);
         }
+        perfumeList = JSON.stringify(perfumeList);
         console.log(await module.exports(g,userid,perfumeid,type,perfumeList));
         process.exit(0);
     }
-    test();
+    //test();
 })();
 
 

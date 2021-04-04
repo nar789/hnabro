@@ -25,7 +25,7 @@
                 });
             }
 
-        perfumeList = JSON.stringify(perfumeList);
+        //perfumeList = JSON.stringify(perfumeList);
         const qry = `update recommand set user_id=${userid}, perfume_id=${perfumeid}, type=${type}, perfume_list = '${perfumeList}' where id=${id}`;
         
         return new Promise((resolve, reject)=>{
@@ -51,7 +51,7 @@
         console.log(await module.exports(g,id,userid,perfumeid,type,perfumeList));
         process.exit(0);
     }
-    test();
+    //test();
 })();
 
 

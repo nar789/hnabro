@@ -59,7 +59,7 @@
         console.log(await module.exports(g, id, userId, address, wantedDate, confirmedPerfume, confirmState, confirmedDate));
         process.exit(0);
     }
-    test();
+    //test();
 })();
 
 
