@@ -88,7 +88,7 @@
         console.log(await module.exports(g, id, userId, slot, slotNote));
         process.exit(0);
     }
-    test();
+    //test();
 })();
 
 

@@ -41,7 +41,7 @@
         console.log(await module.exports(g, userId));
         process.exit(0);
     }
-    test();
+    //test();
 })();
 
 
