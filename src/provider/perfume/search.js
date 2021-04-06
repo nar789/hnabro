@@ -35,7 +35,7 @@
         console.log(await module.exports(g, keyword));
         process.exit(0);
     }
-    test();
+    //test();
 })();
 
 

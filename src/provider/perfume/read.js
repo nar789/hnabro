@@ -19,7 +19,8 @@
     function read(conn, ids) {
         let qry = '';
         if(ids){
-            const str = JSON.stringify(ids); 
+            //const str = JSON.stringify(ids); 
+            const str = ids;
             let idsQry = str.substr(1, str.length-2);
             idsQry = `(${idsQry})`;
 
@@ -46,7 +47,7 @@
         console.log(await module.exports(g, ids));
         process.exit(0);
     }
-    test();
+    //test();
 })();
 
 

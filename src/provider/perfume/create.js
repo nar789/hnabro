@@ -74,7 +74,7 @@
         console.log(await module.exports(g, name, avatar, notes, hot_banner, banner, story, hashtags, likes, subscribs));
         process.exit(0);
     }
-    test();
+    //test();
 })();
 
 
