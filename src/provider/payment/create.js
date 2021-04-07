@@ -52,7 +52,7 @@
         console.log(await module.exports(g, userId, dateToPay, cardInfo));
         process.exit(0);
     }
-    test();
+    //test();
 })();
 
 

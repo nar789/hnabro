@@ -7,6 +7,7 @@
             require('./week/Route')(_g).route();
             require('./preference/Route')(_g).route();
             require('./perfume/Route')(_g).route();
+            require('./payment/Route')(_g).route();
 
 		}
 
