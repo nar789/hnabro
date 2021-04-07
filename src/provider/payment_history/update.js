@@ -20,7 +20,7 @@
         
         if(userId == null  || paymentId == null || price == null ) {
             return new Promise((resolve,reject)=>{
-                resolve('err');
+                resolve('err noArg');
             });
         }
         
@@ -48,7 +48,7 @@
         console.log(await module.exports(g, id, userId, paymentId, price, paidDate));
         process.exit(0);
     }
-    test();
+    //test();
 })();
 
 

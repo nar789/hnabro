@@ -47,7 +47,7 @@
         console.log(await module.exports(g, userId, paymentId, price, paidDate));
         process.exit(0);
     }
-    test();
+    //test();
 })();
 
 
