@@ -9,7 +9,7 @@
             require('./perfume/Route')(_g).route();
             require('./payment/Route')(_g).route();
             require('./payment_history/Route')(_g).route();
-
+            require('./comment/Route')(_g).route();
 		}
 
 		return {

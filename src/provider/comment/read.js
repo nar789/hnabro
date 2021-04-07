@@ -42,7 +42,7 @@
         console.log(await module.exports(g, null, perfumeId));
         process.exit(0);
     }
-    test();
+    //test();
 })();
 
 

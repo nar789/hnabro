@@ -47,7 +47,7 @@
         console.log(await module.exports(g, id, userId, perfumeId, comment));
         process.exit(0);
     }
-    test();
+    //test();
 })();
 
 
