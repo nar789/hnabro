@@ -11,6 +11,9 @@
 			app.get('/admin',function(req,res){
 				res.render('admin/index.html',{});
 			});
+			app.get('/admin/recommand',function(req,res){
+				res.render('admin/recommand.html',{});
+			});
 
 			//1. enetry point
 			app.listen(2131,function(){

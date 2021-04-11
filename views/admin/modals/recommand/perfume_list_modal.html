@@ -1,0 +1,27 @@
+    <!-- perfume_list_modal-->
+    <button type="button" class="btn btn-primary" 
+    data-toggle="modal" data-target="#perfume_list_modal"
+    id=perfume_modal_open_button style="display: none;">
+        perfume_list
+    </button>
+
+    <div class="modal fade" id="perfume_list_modal" 
+    tabindex="-1" aria-labelledby="perfume_list_modal_label" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="perfume_list_modal_label">perfume_list</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <textarea id=perfume_list_modal_body_textarea 
+                rows=10 style="width: 100%;"></textarea>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>

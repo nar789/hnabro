@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link href="/assets/bootstrap/dist/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+        <title>hnabro n i m d a</title>
+    </head>
+
+    <body>
+        <header>
+            <%- include("./header.html"); %>
+        </header>
+
+        <%- include("./modals/recommand/perfume_list_modal.html"); %>
+
+        <div class="content" style="padding: 30px;">
+            <p>
+                <h2>recommand list</h2>
+            </p>
+            <p>
+                <button class="btn btn-primary">create</button>
+            </p>
+            
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">user_id</th>
+                    <th scope="col">perfume_id</th>
+                    <th scope="col">type</th>
+                    <th scope="col">perfume_list</th>
+                    <th scope="col">update</th>
+                    <th scope="col">delete</th>
+                  </tr>
+                </thead>
+                <tbody id="list_body"></tbody>
+            </table>
+        </div>
+
+        <script src="/assets/jquery/dist/jquery.min.js"></script>
+        <script src="/assets/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+
+            let sList = null;
+            
+            $.post('/api/recommand/read',{},(d,s)=>{
+                let list=JSON.parse(d);
+                loadList(list);
+            });
+
+            function loadList(list) {
+                sList = list;
+                let idx = 0;
+                for(var i of list){
+                    $('#list_body').append(createItem(i, idx));
+                    idx = idx + 1;
+                }   
+            }
+
+            function createItem(item, idx) {
+                return `<tr>
+                <td>${item.id}</td>
+                <td>${item.user_id}</td>
+                <td>${item.perfume_id}</td>
+                <td>${item.type}</td>
+                <td><button class='btn btn-primary' onclick="onPerfumeListClick(${idx})">perfume_list</button></td>
+                <td><button class='btn btn-info'>update</button></td>
+                <td><button class='btn btn-danger'>delete</button></td>
+                </tr>`;   
+            }
+
+            function onPerfumeListClick(idx) {
+                $('#perfume_list_modal_body_textarea').html(sList[idx].perfume_list);
+                $('#perfume_modal_open_button').click();
+            }
+
+        </script>
+    </body>
+
+
+    
+</html>
+
