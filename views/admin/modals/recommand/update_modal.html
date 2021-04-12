@@ -1,0 +1,128 @@
+    <!-- update modal -->
+    <button type="button" class="btn btn-primary" 
+    data-toggle="modal" data-target="#update_modal"
+    id=update_modal_open_button style="display: none;">
+        update
+    </button>
+
+    <div class="modal fade" id="update_modal" 
+    tabindex="-1" aria-labelledby="update_modal_label" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="update_modal_label">updateItem</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="mb-3">
+                    <label for="update_id_input">id</label>
+                    <input class="form-control" type="text" id="update_id_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_user_id_input">user_id</label>
+                    <input class="form-control" type="text" id="update_user_id_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_perfume_id_input">perfume_id</label>
+                    <input class="form-control" type="text" id="update_perfume_id_input" />
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="update_type_input">type</label>
+                    <input class="form-control" type="text" id="update_type_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_perfume_list_input">perfume_list</label>
+                    <textarea id="update_perfume_list_input" rows=10 style="width: 100%;border:#efefef 1px solid;"></textarea>
+                    
+                </div>
+
+
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                 onclick="onModalUpdateButtonClick()">update</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script>
+        function onModalUpdateButtonClick() {
+            
+
+            const id  = $('#update_id_input').val();
+            if(!Number.isInteger(parseInt(id.trim()))){
+                alert('id is not int');
+                return;
+            }
+
+            const user_id = $('#update_user_id_input').val();
+            if(!Number.isInteger(parseInt(user_id.trim()))){
+                alert('user_id is not int');
+                return;
+            }
+            const perfume_id = $('#update_perfume_id_input').val();
+            if(!Number.isInteger(parseInt(perfume_id.trim()))){
+                alert('perfume_id is not int');
+                return;
+            }
+            const type = $('#update_type_input').val();
+            if(!Number.isInteger(parseInt(type.trim()))){
+                alert('type is not int');
+                return;
+            }
+            const perfume_list = update_parsePerfumeListInput();
+
+            $.post('/api/recommand/update', {
+                id : id,
+                user_id : user_id,
+                perfume_id : perfume_id,
+                type : type,
+                perfume_list : perfume_list,
+            }, (d,s)=>{
+                alert(d);
+                location.reload(true);
+            });
+        }
+
+        function update_parsePerfumeListInput() {
+            let text = $('#update_perfume_list_input').val();
+            let parts = text.split(',');
+            let ret = [];
+            for(var item of parts){
+                const num = parseInt(item.trim());
+                if(Number.isInteger(num)){
+                    ret.push(num);
+                }
+            }
+            return JSON.stringify(ret);
+        }
+
+        
+        function loadUpdateModal(id, userId, perfumeId, type, perfumeList) {
+            let parsedlist = JSON.parse(perfumeList);
+            let listStr = "";
+            for(var item of parsedlist){
+                listStr = listStr + item + ", ";
+            }
+            
+
+            $('#update_id_input').val(id);
+            $('#update_user_id_input').val(userId);
+            $('#update_perfume_id_input').val(perfumeId);
+            $('#update_type_input').val(type);
+            $('#update_perfume_list_input').val(listStr);
+
+        }
+
+    </script>

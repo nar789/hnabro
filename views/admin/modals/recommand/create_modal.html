@@ -16,11 +16,82 @@
             </button>
             </div>
             <div class="modal-body">
-                ...create
+                <div class="mb-3">
+                    <label for="user_id_input">user_id</label>
+                    <input class="form-control" type="text" id="user_id_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="perfume_id_input">perfume_id</label>
+                    <input class="form-control" type="text" id="perfume_id_input" />
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="type_input">type</label>
+                    <input class="form-control" type="text" id="type_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="perfume_list_input">perfume_list</label>
+                    <textarea id="perfume_list_input" rows=10 style="width: 100%;border:#efefef 1px solid;"></textarea>
+                    
+                </div>
+
+
+                
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                 onclick="onModalCreateButtonClick()">create</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
         </div>
     </div>
+
+    <script>
+        function onModalCreateButtonClick() {
+
+            const user_id = $('#user_id_input').val();
+            if(!Number.isInteger(parseInt(user_id.trim()))){
+                alert('user_id is not int');
+                return;
+            }
+            const perfume_id = $('#perfume_id_input').val();
+            if(!Number.isInteger(parseInt(perfume_id.trim()))){
+                alert('user_id is not int');
+                return;
+            }
+            const type = $('#type_input').val();
+            if(!Number.isInteger(parseInt(type.trim()))){
+                alert('user_id is not int');
+                return;
+            }
+            const perfume_list = create_parsePerfumeListInput();
+
+            $.post('/api/recommand/create', {
+                user_id : user_id,
+                perfume_id : perfume_id,
+                type : type,
+                perfume_list : perfume_list,
+            }, (d,s)=>{
+                alert(d);
+                location.reload(true);
+            });
+        }
+
+
+        function create_parsePerfumeListInput() {
+            let text = $('#perfume_list_input').val();
+            let parts = text.split(',');
+            let ret = [];
+            for(var item of parts){               
+                const num = parseInt(item.trim());
+                if(Number.isInteger(num)){
+                    ret.push(num);
+                }
+            }
+            return JSON.stringify(ret);
+        }
+    </script>

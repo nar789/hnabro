@@ -11,6 +11,8 @@
 
         <%- include("./modals/recommand/perfume_list_modal.html"); %>
         <%- include("./modals/recommand/create_modal.html"); %>
+        <%- include("./modals/recommand/update_modal.html"); %>
+        <%- include("./modals/recommand/delete_modal.html"); %>
 
         <div class="content" style="padding: 30px;">
             <p>
@@ -64,8 +66,8 @@
                 <td>${item.perfume_id}</td>
                 <td>${item.type}</td>
                 <td><button class='btn btn-primary' onclick="onPerfumeListClick(${idx})">perfume_list</button></td>
-                <td><button class='btn btn-info'>update</button></td>
-                <td><button class='btn btn-danger'>delete</button></td>
+                <td><button class='btn btn-info' onclick="onUpdateClick(${idx})">update</button></td>
+                <td><button class='btn btn-danger' onclick="onDeleteClick(${item.id})">delete</button></td>
                 </tr>`;   
             }
 
@@ -76,6 +78,17 @@
 
             function onCreateClick() {
                 $('#create_modal_open_button').click();
+            }
+
+            function onUpdateClick(idx) {
+                const item = sList[idx];
+                loadUpdateModal(item.id, item.user_id, item.perfume_id, item.type, item.perfume_list);
+                $('#update_modal_open_button').click();
+            }
+
+            function onDeleteClick(id){
+                $('#delete_id_input').val(id);
+                $('#delete_modal_open_button').click();
             }
 
         </script>
