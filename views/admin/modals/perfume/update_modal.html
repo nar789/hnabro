@@ -1,0 +1,151 @@
+    <!-- update modal -->
+    <button type="button" class="btn btn-primary" 
+    data-toggle="modal" data-target="#update_modal"
+    id=update_modal_open_button style="display: none;">
+        udpate
+    </button>
+
+    <div class="modal fade" id="update_modal" 
+    tabindex="-1" aria-labelledby="update_modal_label" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="update_modal_label">updateItem</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="mb-3">
+                    <label for="update_id_input">id</label>
+                    <input class="form-control" type="number" id="update_id_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_name_input">name</label>
+                    <input class="form-control" type="text" id="update_name_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_avatar_input">avatar</label>
+                    <input class="form-control" type="text" id="update_avatar_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_notes_input">notes</label>
+                    <textarea id="update_notes_input" rows=3 style="width: 100%;border:#efefef 1px solid;"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_hot_banner_input">hot_banner</label>
+                    <input class="form-control" type="text" id="update_hot_banner_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_banner_input">banner</label>
+                    <input class="form-control" type="text" id="update_banner_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_story_input">story</label>
+                    <input class="form-control" type="text" id="update_story_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_hashtags_input">hashtags</label>
+                    <textarea id="update_hashtags_input" rows=3 style="width: 100%;border:#efefef 1px solid;"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_likes_input">likes</label>
+                    <input class="form-control" type="number" id="update_likes_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_subscribes_input">subscribes</label>
+                    <input class="form-control" type="number" id="update_subscribes_input" />
+                </div>                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                 onclick="onModalUpdateButtonClick()">Update</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script>
+        function onModalUpdateButtonClick() {
+            const id = $('#update_id_input').val();
+            const name = $('#update_name_input').val();
+            const avatar = $('#update_avatar_input').val();
+            const hotBanner = $('#update_hot_banner_input').val();
+            const banner = $('#update_banner_input').val();
+            const story = $('#update_story_input').val();
+            const likes = $('#update_likes_input').val();
+            const subscribs = $('#update_subscribes_input').val();
+
+            if(!Number.isInteger(parseInt(id.trim()))){
+                alert('id is not int');
+                return;
+            }
+
+            if(!Number.isInteger(parseInt(likes.trim()))){
+                alert('likes is not int');
+                return;
+            }
+
+            if(!Number.isInteger(parseInt(subscribs.trim()))){
+                alert('subscribs is not int');
+                return;
+            }
+            const notes = createJsonInput($('#update_notes_input').val());
+            const hashtags = createJsonInput($('#update_hashtags_input').val());
+            if(notes == null || hashtags == null){
+                alert("notes or hashtags json is wrong.");
+                return;
+            }
+
+            $.post('/api/perfume/update', {
+                id : id,
+                name : name,
+                avatar : avatar,
+                notes : notes, 
+                hot_banner : hotBanner,
+                banner : banner,
+                story : story,
+                hashtags : hashtags,
+                likes : parseInt(likes),
+                subscribs : parseInt(subscribs)
+            }, (d,s)=>{
+                alert(d);
+                location.reload(true);
+            });
+        }
+
+        function createJsonInput(str) {
+            try{
+                let strJSON = JSON.parse(str);
+                return encodeURIComponent(JSON.stringify(strJSON));
+            }catch(err){
+                alert(err);
+                return null;
+            }
+        }
+
+        function loadUpdateModal(id, name, avatar, notes, hotBanner, banner, story, hashtags, likes, subscribs) {       
+            $('#update_id_input').val(id);
+            $('#update_name_input').val(name);
+            $('#update_avatar_input').val(avatar);
+            $('#update_notes_input').val(decodeURIComponent(notes));
+            $('#update_hot_banner_input').val(hotBanner);
+            $('#update_banner_input').val(banner);
+            $('#update_story_input').val(story);
+            $('#update_hashtags_input').val(decodeURIComponent(hashtags));
+            $('#update_likes_input').val(likes);
+            $('#update_subscribes_input').val(subscribs);
+            
+        }
+    </script>

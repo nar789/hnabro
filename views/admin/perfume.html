@@ -11,6 +11,9 @@
 
         <%- include("./modals/perfume/notes_modal.html"); %>
         <%- include("./modals/perfume/hashtags_modal.html"); %>
+        <%- include("./modals/perfume/create_modal.html"); %>
+        <%- include("./modals/perfume/update_modal.html"); %>
+        <%- include("./modals/perfume/delete_modal.html"); %>
 
 
         <div class="content" style="padding: 30px;">
@@ -91,10 +94,26 @@
             
             function onNotesClick(idx) {
                 const item = sList[idx];
-                const notes = decodeURIComponent(item.notes);
 
-                $('#notes-text').html(notes);
+                let notes = JSON.parse(decodeURIComponent(item.notes));
+
+                $('#notes-text').html(JSON.stringify(notes));
                 $('#notes_modal_open_button').click();
+            }
+
+            function onCreateClick() {
+                $('#create_modal_open_button').click();
+            }
+
+            function onUpdateClick(idx) {
+                const item = sList[idx];
+                loadUpdateModal(item.id, item.name, item.avatar, item.notes, item.hot_banner,item.banner, item.story, item.hashtags, item.likes, item.subscribes);
+                $('#update_modal_open_button').click();
+            }
+
+            function onDeleteClick(id){
+                $('#delete_id_input').val(id);
+                $('#delete_modal_open_button').click();
             }
 
         </script>
