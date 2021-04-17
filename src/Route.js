@@ -17,6 +17,9 @@
 			app.get('/admin/perfume',function(req,res){
 				res.render('admin/perfume.html',{});
 			});
+			app.get('/admin/user',function(req,res){
+				res.render('admin/user.html',{});
+			});
 
 			//1. enetry point
 			app.listen(2131,function(){

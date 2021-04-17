@@ -1,0 +1,143 @@
+    <!-- update modal -->
+    <button type="button" class="btn btn-primary" 
+    data-toggle="modal" data-target="#update_modal"
+    id=update_modal_open_button style="display: none;">
+        update
+    </button>
+
+    
+    <div class="modal fade" id="update_modal" 
+    tabindex="-1" aria-labelledby="update_modal_label" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="update_modal_label">updateItem</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="mb-3">
+                    <label for="update_id_input">id</label>
+                    <input class="form-control" type="text" id="update_id_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_address_input">address</label>
+                    <input class="form-control" type="text" id="update_address_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_name_input">name</label>
+                    <input class="form-control" type="text" id="update_name_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_sex_input">sex</label>
+                    <input class="form-control" type="number" id="update_sex_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_age_input">age</label>
+                    <input class="form-control" type="number" id="update_age_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_hashtags_input">hashtags</label>
+                    <textarea id="update_hashtags_input" rows=3 style="width: 100%;border:#efefef 1px solid;"></textarea>    
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_personality_input">personality</label>
+                    <input class="form-control" type="text" id="update_personality_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_job_input">job</label>
+                    <input class="form-control" type="text" id="update_job_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_oauth_type_input">oauth_type</label>
+                    <input class="form-control" type="number" id="update_oauth_type_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_likes_input">likes</label>
+                    <textarea id="update_likes_input" rows=3 style="width: 100%;border:#efefef 1px solid;"></textarea>    
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_subscribe_type_input">subscribe_type</label>
+                    <input class="form-control" type="number" id="update_subscribe_type_input" />
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                 onclick="onModalUpdateButtonClick()">Update</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script>
+        function onModalUpdateButtonClick() {
+
+            const id = $('#update_id_input').val();
+            const address = $('#update_address_input').val();
+            const name = $('#update_name_input').val();
+            const sex = $('#update_sex_input').val();
+            const age = $('#update_age_input').val();
+            const personality = $('#update_personality_input').val();
+            const job = $('#update_job_input').val();
+            const oauth_type = $('#update_oauth_type_input').val();
+            const subscribe_type = $('#update_subscribe_type_input').val();
+            
+            const hashtags = createJsonInput($('#update_hashtags_input').val());
+            const likes = createJsonInput($('#update_likes_input').val());
+
+            $.post('/api/user/update', {
+                id : id,
+                address : address,
+                name : name,
+                sex : sex,
+                age : age,
+                personality : personality,
+                job : job,
+                oauth_type : oauth_type,
+                subscribe_type : subscribe_type,
+                hashtags : hashtags,
+                likes : likes,
+            }, (d,s)=>{
+                alert(d);
+                location.reload(true);
+            });
+        }
+
+        function createJsonInput(str) {
+            try{
+                let strJSON = JSON.parse(str);
+                return encodeURIComponent(JSON.stringify(strJSON));
+            }catch(err){
+                alert(err);
+                return null;
+            }
+        }
+
+        function loadUpdateModal(id, address, name, sex, age, hashtags, personality, job, oauth_type, likes, subscribe_type) {
+            $('#update_id_input').val(id);
+            $('#update_address_input').val(address);
+            $('#update_name_input').val(name);
+            $('#update_sex_input').val(sex);
+            $('#update_age_input').val(age);
+            $('#update_personality_input').val(personality);
+            $('#update_job_input').val(job);
+            $('#update_oauth_type_input').val(oauth_type);
+            $('#update_subscribe_type_input').val(subscribe_type);
+            $('#update_hashtags_input').val(decodeURIComponent(hashtags));
+            $('#update_likes_input').val(decodeURIComponent(likes));
+        }
+    </script>
