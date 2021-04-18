@@ -20,6 +20,9 @@
 			app.get('/admin/user',function(req,res){
 				res.render('admin/user.html',{});
 			});
+			app.get('/admin/preference',function(req,res){
+				res.render('admin/preference.html',{});
+			});
 
 			//1. enetry point
 			app.listen(2131,function(){

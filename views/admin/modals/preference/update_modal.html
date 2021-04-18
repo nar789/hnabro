@@ -1,0 +1,90 @@
+    <!-- update modal -->
+    <button type="button" class="btn btn-primary" 
+    data-toggle="modal" data-target="#update_modal"
+    id=update_modal_open_button style="display: none;">
+        create
+    </button>
+
+    <div class="modal fade" id="update_modal" 
+    tabindex="-1" aria-labelledby="update_modal_label" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="update_modal_label">updateItem</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="mb-3">
+                    <label for="update_id_input">user_id</label>
+                    <input class="form-control" type="number" id="update_id_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_user_id_input">user_id</label>
+                    <input class="form-control" type="number" id="update_user_id_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_slot_input">slot</label>
+                    <textarea id="update_slot_input" rows=3 style="width: 100%;border:#efefef 1px solid;"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_slot_note_input">slot_note</label>
+                    <textarea id="update_slot_note_input" rows=5 style="width: 100%;border:#efefef 1px solid;"></textarea>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                 onclick="onModalUpdateButtonClick()">Update</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script>
+        function onModalUpdateButtonClick() {
+
+            const id = $('#update_id_input').val();
+            const user_id = $('#update_user_id_input').val();
+        
+            const slot = createJsonInput($('#update_slot_input').val());
+            const slot_note = createJsonInput($('#update_slot_note_input').val());
+
+            if(slot == null || slot_note == null){
+                return;
+            }
+
+            $.post('/api/preference/update', {
+                id : id, 
+                user_id : user_id,
+                slot : slot,
+                slot_note : slot_note,
+            }, (d,s)=>{
+                alert(d);
+                location.reload(true);
+            });
+        }
+
+        function createJsonInput(str) {
+            try{
+                let strJSON = JSON.parse(str);
+                return encodeURIComponent(JSON.stringify(strJSON));
+            }catch(err){
+                alert(err);
+                return null;
+            }
+        }
+        
+        function loadUpdateModal(id, userId, slot, slotNote) {
+            $('#update_id_input').val(id);
+            $('#update_user_id_input').val(userId);
+            $('#update_slot_input').val(decodeURIComponent(slot));
+            $('#update_slot_note_input').val(decodeURIComponent(slotNote));
+        }
+    </script>

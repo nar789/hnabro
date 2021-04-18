@@ -1,0 +1,75 @@
+    <!-- create modal -->
+    <button type="button" class="btn btn-primary" 
+    data-toggle="modal" data-target="#create_modal"
+    id=create_modal_open_button style="display: none;">
+        create
+    </button>
+
+    <div class="modal fade" id="create_modal" 
+    tabindex="-1" aria-labelledby="create_modal_label" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="create_modal_label">createItem</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="user_id_input">user_id</label>
+                    <input class="form-control" type="number" id="user_id_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="slot_input">slot</label>
+                    <textarea id="slot_input" rows=3 style="width: 100%;border:#efefef 1px solid;"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="slot_note_input">slot_note</label>
+                    <textarea id="slot_note_input" rows=5 style="width: 100%;border:#efefef 1px solid;"></textarea>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                 onclick="onModalCreateButtonClick()">create</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script>
+        function onModalCreateButtonClick() {
+
+            const user_id = $('#user_id_input').val();
+        
+            const slot = createJsonInput($('#slot_input').val());
+            const slot_note = createJsonInput($('#slot_note_input').val());
+
+            if(slot == null || slot_note == null){
+                return;
+            }
+
+            $.post('/api/preference/create', {
+                user_id : user_id,
+                slot : slot,
+                slot_note : slot_note,
+            }, (d,s)=>{
+                alert(d);
+                location.reload(true);
+            });
+        }
+
+        function createJsonInput(str) {
+            try{
+                let strJSON = JSON.parse(str);
+                return encodeURIComponent(JSON.stringify(strJSON));
+            }catch(err){
+                alert(err);
+                return null;
+            }
+        }
+    </script>
