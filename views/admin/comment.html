@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+    <head>
+        <%- include("./head.html"); %>
+    </head>
+
+    <body>
+        <header>
+            <%- include("./header.html"); %>
+        </header>
+
+        <%- include("./modals/comment/create_modal.html"); %>
+        <%- include("./modals/comment/update_modal.html"); %>
+        <%- include("./modals/comment/delete_modal.html"); %>
+
+        <div class="content" style="padding: 30px;">
+            <p>
+                <h2>comment list</h2>
+            </p>
+            <p>
+                <button class="btn btn-primary" onclick="onCreateClick()">create</button>
+            </p>
+            
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">user_id</th>
+                    <th scope="col">perfume_id</th>
+                    <th scope="col">comment</th>
+                    <th scope="col">update</th>
+                    <th scope="col">delete</th>
+                  </tr>
+                </thead>
+                <tbody id="list_body"></tbody>
+            </table>
+        </div>
+
+        <footer>
+            <%- include("./footer.html"); %>
+        </footer>
+        <script>
+
+            let sList = null;
+            
+            $.post('/api/comment/read',{},(d,s)=>{
+                let list=JSON.parse(d);
+                loadList(list);
+            });
+
+            function loadList(list) {
+                sList = list;
+                let idx = 0;
+                for(var i of list){
+                    $('#list_body').append(createItem(i, idx));
+                    idx = idx + 1;
+                }   
+            }
+
+            function createItem(item, idx) {
+                return `<tr>
+                <td>${item.id}</td>
+                <td>${item.user_id}</td>
+                <td>${item.perfume_id}</td>
+                <td>${item.comment}</td>
+                <td><button class='btn btn-info' onclick="onUpdateClick(${idx})">update</button></td>
+                <td><button class='btn btn-danger' onclick="onDeleteClick(${item.id})">delete</button></td>
+                </tr>`;   
+            }
+
+            function onCreateClick() {
+                $('#create_modal_open_button').click();
+            }
+
+            function onUpdateClick(idx) {
+                const item = sList[idx];
+                loadUpdateModal(item.id, item.user_id, item.perfume_id, item.comment);
+                $('#update_modal_open_button').click();
+            }
+
+            function onDeleteClick(id){
+                $('#delete_id_input').val(id);
+                $('#delete_modal_open_button').click();
+            }
+
+        </script>
+    </body>
+
+
+    
+</html>
+

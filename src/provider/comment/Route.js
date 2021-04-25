@@ -12,7 +12,6 @@ const { user } = require('../../../dbConfig');
                 const userId = req.body.user_id;
                 const perfumeId = req.body.perfume_id;
                 const comment = req.body.comment;
-                
                 const create = await require('./create')(_g, userId, perfumeId, comment);
                 res.json(create);                
             });

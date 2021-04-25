@@ -23,6 +23,9 @@
 			app.get('/admin/preference',function(req,res){
 				res.render('admin/preference.html',{});
 			});
+			app.get('/admin/comment',function(req,res){
+				res.render('admin/comment.html',{});
+			});
 
 			//1. enetry point
 			app.listen(2131,function(){
