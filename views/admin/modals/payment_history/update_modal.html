@@ -1,0 +1,99 @@
+    <!-- update modal -->
+    <button type="button" class="btn btn-primary" 
+    data-toggle="modal" data-target="#update_modal"
+    id=update_modal_open_button style="display: none;">
+        update
+    </button>
+
+    <div class="modal fade" id="update_modal" 
+    tabindex="-1" aria-labelledby="update_modal_label" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="update_modal_label">updateItem</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="mb-3">
+                    <label for="update_id_input">id</label>
+                    <input class="form-control" type="number" id="update_id_input" disabled/>
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_user_id_input">user_id</label>
+                    <input class="form-control" type="number" id="update_user_id_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_payment_id_input">payment_id</label>
+                    <input class="form-control" type="text" id="update_payment_id_input" />
+                </div>
+                
+                <div class="mb-3">
+                    <label for="update_price_input">price</label>
+                    <input class="form-control" type="text" id="update_price_input" />
+                </div>
+                
+                <div class="mb-3">
+                    <label for="update_paid_date_input">paid_date</label>
+                    <input class="form-control" type="text" id="update_paid_date_input" />
+                </div>
+            
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                 onclick="onModalUpdateButtonClick()">update</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script>
+        function onModalUpdateButtonClick() {
+
+            const id = $('#update_id_input').val();
+
+            const user_id = $('#update_user_id_input').val();
+            if(!Number.isInteger(parseInt(user_id.trim()))){
+                alert('user_id is not int');
+                return;
+            }
+
+            const payment_id = $('#update_payment_id_input').val();
+            if(!Number.isInteger(parseInt(payment_id.trim()))){
+                alert('payment_id is not int');
+                return;
+            }
+
+            const price = $('#update_price_input').val();
+            if(!Number.isInteger(parseInt(price.trim()))){
+                alert('price is not int');
+                return;
+            }
+
+            const paid_date = $('#update_paid_date_input').val();
+
+            $.post('/api/payment_history/update', {
+                id : id,
+                user_id : user_id,
+                payment_id : payment_id, 
+                price : price,
+                paid_date : paid_date
+            }, (d,s)=>{
+                alert(d);
+                location.reload(true);
+            });
+        }
+
+        function loadUpdateModal(id, userId, payment_id, price, paid_date) {
+            $('#update_id_input').val(id);
+            $('#update_user_id_input').val(userId);
+            $('#update_payment_id_input').val(payment_id);
+            $('#update_price_input').val(price);
+            $('#update_paid_date_input').val(paid_date);
+        }
+    </script>

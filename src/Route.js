@@ -32,6 +32,9 @@
 			app.get('/admin/payment',function(req,res){
 				res.render('admin/payment.html',{});
 			});
+			app.get('/admin/payment_history',function(req,res){
+				res.render('admin/payment_history.html',{});
+			});
 
 			//1. enetry point
 			app.listen(2131,function(){
