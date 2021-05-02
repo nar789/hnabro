@@ -12,10 +12,9 @@
 		}
 
 		function loadRoute() {
-			var route = require('./Route.js')(_g);
-			var provierRoute = require('./provider/Route.js')(_g);
-			route.route();
-			provierRoute.route();
+			const route = require('./Route.js')(_g).route();
+			const provierRoute = require('./provider/Route.js')(_g).route();
+			const adminRoute = require('./admin/Route.js')(_g).route();
 		}
 
 		function initialize(){
