@@ -26,6 +26,9 @@
 			app.get('/admin/comment',function(req,res){
 				res.render('admin/comment.html',{});
 			});
+			app.get('/admin/week',function(req,res){
+				res.render('admin/week.html',{});
+			});
 
 			//1. enetry point
 			app.listen(2131,function(){

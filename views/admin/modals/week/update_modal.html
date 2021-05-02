@@ -1,0 +1,121 @@
+    <!-- update modal -->
+    <button type="button" class="btn btn-primary" 
+    data-toggle="modal" data-target="#update_modal"
+    id=update_modal_open_button style="display: none;">
+        update
+    </button>
+
+    <div class="modal fade" id="update_modal" 
+    tabindex="-1" aria-labelledby="update_modal_label" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="update_modal_label">updateItem</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="mb-3">
+                    <label for="update_id_input">id</label>
+                    <input class="form-control" type="number" id="update_id_input" disabled/>
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_user_id_input">user_id</label>
+                    <input class="form-control" type="number" id="update_user_id_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_address_input">address</label>
+                    <input class="form-control" type="text" id="update_address_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_wanted_date_input">wanted_date</label>
+                    <input class="form-control" type="text" id="update_wanted_date_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_confirmed_perfume_input">confirmed_perfume</label>
+                    <textarea id="update_confirmed_perfume_input" rows=5 style="width: 100%;border:#efefef 1px solid;"></textarea>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="update_confirm_state_input">confirm_state</label>
+                    <input class="form-control" type="number" id="update_confirm_state_input" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="update_confirmed_date_input">confirmed_date</label>
+                    <input class="form-control" type="text" id="update_confirmed_date_input" />
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                 onclick="onModalUpdateButtonClick()">update</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script>
+        function onModalUpdateButtonClick() {
+            const id = $('#update_id_input').val();
+            const user_id = $('#update_user_id_input').val();
+            if(!Number.isInteger(parseInt(user_id.trim()))){
+                alert('user_id is not int');
+                return;
+            }
+
+            const address = $('#update_address_input').val();
+            const wanted_date = $('#update_wanted_date_input').val();
+            const confirmed_perfume = createJsonInput($('#update_confirmed_perfume_input').val());
+
+            const confirm_state = $('#update_confirm_state_input').val()
+            
+            if(!Number.isInteger(parseInt(confirm_state.trim()))){
+                alert('confirm_state is not int');
+                return;
+            }
+
+            const confirmed_date = $('#update_confirmed_date_input').val();
+    
+            $.post('/api/week/update', {
+                id : id,
+                user_id : user_id,
+                address : address,
+                wanted_date : wanted_date, 
+                confirmed_perfume : confirmed_perfume,
+                confirm_state : confirm_state,
+                confirmed_date : confirmed_date
+            }, (d,s)=>{
+                alert(d);
+                location.reload(true);
+            });
+        }
+
+        function createJsonInput(str) {
+            try{
+                let strJSON = JSON.parse(str);
+                return encodeURIComponent(JSON.stringify(strJSON));
+            }catch(err){
+                alert(err);
+                return null;
+            }
+        }
+
+        function loadUpdateModal(id, userId, address, wantedDate, confirmedPerfume, confirmState, confirmedDate) {            
+
+            $('#update_id_input').val(id);
+            $('#update_user_id_input').val(userId);
+            $('#update_address_input').val(address);
+            $('#update_wanted_date_input').val(wantedDate);
+            $('#update_confirmed_perfume_input').val(decodeURIComponent(confirmedPerfume));
+            $('#update_confirm_state_input').val(confirmState);
+            $('#update_confirmed_date_input').val(confirmedDate);
+        }
+    </script>

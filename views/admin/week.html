@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+    <head>
+        <%- include("./head.html"); %>
+    </head>
+
+    <body>
+        <header>
+            <%- include("./header.html"); %>
+        </header>
+
+        <%- include("./modals/week/confirmed_perfume_modal.html"); %>
+        <%- include("./modals/week/create_modal.html"); %>
+        <%- include("./modals/week/update_modal.html"); %>
+        <%- include("./modals/week/delete_modal.html"); %>
+
+        <div class="content" style="padding: 30px;">
+            <p>
+                <h2>week list</h2>
+            </p>
+            <p>
+                <button class="btn btn-primary" onclick="onCreateClick()">create</button>
+            </p>
+            
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">user_id</th>
+                    <th scope="col">address</th>
+                    <th scope="col">wanted_date</th>
+                    <th scope="col">confirmed_perfume</th>
+                    <th scope="col">confirm_state</th>
+                    <th scope="col">confirmed_date</th>
+                    <th scope="col">update</th>
+                    <th scope="col">delete</th>
+                  </tr>
+                </thead>
+                <tbody id="list_body"></tbody>
+            </table>
+        </div>
+
+        <footer>
+            <%- include("./footer.html"); %>
+        </footer>
+        <script>
+
+            let sList = null;
+            
+            $.post('/api/week/read',{},(d,s)=>{
+                let list=JSON.parse(d);
+                loadList(list);
+            });
+
+            function loadList(list) {
+                sList = list;
+                let idx = 0;
+                for(var i of list){
+                    $('#list_body').append(createItem(i, idx));
+                    idx = idx + 1;
+                }   
+            }
+
+            function createItem(item, idx) {
+                return `<tr>
+                <td>${item.id}</td>
+                <td>${item.user_id}</td>
+                <td>${item.address}</td>
+                <td>${item.wanted_date}</td>
+                <td><button class='btn btn-primary' onclick="onConfirmedPerfumeClick(${idx})">confirmed_perfume</button></td>
+                <td>${item.confirm_state}</td>
+                <td>${item.confirmed_date}</td>
+                <td><button class='btn btn-info' onclick="onUpdateClick(${idx})">update</button></td>
+                <td><button class='btn btn-danger' onclick="onDeleteClick(${item.id})">delete</button></td>
+                </tr>`;   
+            }
+
+            function onConfirmedPerfumeClick(idx) {
+                const confirmed_perfume = sList[idx].confirmed_perfume;
+                $('#confirmed_perfume_body_textarea').html(decodeURIComponent(confirmed_perfume));
+                $('#confirmed_perfume_modal_open_button').click();
+            }
+
+            function onCreateClick() {
+                $('#create_modal_open_button').click();
+            }
+
+            function onUpdateClick(idx) {
+                const item = sList[idx];
+                loadUpdateModal(item.id, item.user_id, item.address, item.wanted_date, item.confirmed_perfume, item.confirm_state, item.confirmed_date);
+                $('#update_modal_open_button').click();
+            }
+
+            function onDeleteClick(id){
+                $('#delete_id_input').val(id);
+                $('#delete_modal_open_button').click();
+            }
+
+        </script>
+    </body>
+    
+</html>
+

@@ -28,7 +28,7 @@
         return new Promise((resolve, reject)=>{
             conn.query(qry, (err, ret)=>{
                 if(err || ret == null){
-                    resolve('errQry');
+                    resolve('errQry' + qry);
                     return;
                 }
                 resolve('success');
