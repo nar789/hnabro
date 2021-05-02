@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+    <head>
+        <%- include("./head.html"); %>
+    </head>
+
+    <body>
+        <header>
+            <%- include("./header.html"); %>
+        </header>
+
+        <%- include("./modals/payment/card_info_modal.html"); %>
+        <%- include("./modals/payment/create_modal.html"); %>
+        <%- include("./modals/payment/update_modal.html"); %>
+        <%- include("./modals/payment/delete_modal.html"); %>
+
+        <div class="content" style="padding: 30px;">
+            <p>
+                <h2>week list</h2>
+            </p>
+            <p>
+                <button class="btn btn-primary" onclick="onCreateClick()">create</button>
+            </p>
+            
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">user_id</th>
+                    <th scope="col">date_to_pay</th>
+                    <th scope="col">card_info</th>
+                    <th scope="col">update</th>
+                    <th scope="col">delete</th>
+                  </tr>
+                </thead>
+                <tbody id="list_body"></tbody>
+            </table>
+        </div>
+
+        <footer>
+            <%- include("./footer.html"); %>
+        </footer>
+        <script>
+
+            let sList = null;
+            
+            $.post('/api/payment/read',{},(d,s)=>{
+                let list=JSON.parse(d);
+                loadList(list);
+            });
+
+            function loadList(list) {
+                sList = list;
+                let idx = 0;
+                for(var i of list){
+                    $('#list_body').append(createItem(i, idx));
+                    idx = idx + 1;
+                }   
+            }
+
+            function createItem(item, idx) {
+                return `<tr>
+                <td>${item.id}</td>
+                <td>${item.user_id}</td>
+                <td>${item.date_to_pay}</td>
+                <td><button class='btn btn-primary' onclick="onCardInfoClick(${idx})">card_info</button></td>
+                <td><button class='btn btn-info' onclick="onUpdateClick(${idx})">update</button></td>
+                <td><button class='btn btn-danger' onclick="onDeleteClick(${item.id})">delete</button></td>
+                </tr>`;   
+            }
+
+            function onCardInfoClick(idx) {
+                const cardInfo = sList[idx].card_info;
+                $('#card_info_body_textarea').html(decodeURIComponent(cardInfo));
+                $('#card_info_modal_open_button').click();
+            }
+
+            function onCreateClick() {
+                $('#create_modal_open_button').click();
+            }
+
+            function onUpdateClick(idx) {
+                const item = sList[idx];
+                loadUpdateModal(item.id, item.user_id, item.date_to_pay, item.card_info);
+                $('#update_modal_open_button').click();
+            }
+
+            function onDeleteClick(id){
+                $('#delete_id_input').val(id);
+                $('#delete_modal_open_button').click();
+            }
+
+        </script>
+    </body>
+    
+</html>
+
